@@ -15,7 +15,9 @@ describe('models', () => {
       photoUrl: 'http://www.monkey.com'
       
     })
-    expect(user.toJSON()).toEqual({ username: 'test', photoUrl: 'http://www.monkey.com', _id: expect.any(Types.ObjectId) });
+      .then(user => {
+        expect(user.toJSON()).toEqual({ username: 'test', photoUrl: 'http://www.monkey.com', _id: expect.any(mongoose.Types.ObjectId) });
+      });
   });
 
 });
