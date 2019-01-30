@@ -1,0 +1,37 @@
+{
+  "name": "root",
+  "version": "1.0.0",
+  "description": "Pipeline | Node/Express Mongo DB Aggragations exploration into Instagram",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/latergrams/root.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/latergrams/root/issues"
+  },
+  "homepage": "https://github.com/latergrams/root#readme",
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "jest": "^24.0.0",
+    "nodemon": "^1.18.9",
+    "supertest": "^3.4.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.8"
+  }
+}

@@ -9,7 +9,13 @@ describe('models', () => {
   afterAll(() => mongoose.disconnect());
 
   it('validates a good model', () => {
-    const user = new User({ email: 'test@test.com' });
-    expect(user.toJSON()).toEqual({ email: 'test@test.com', _id: expect.any(Types.ObjectId) });
+    return User.create({
+      username: 'test',
+      password: '234',
+      photoUrl: 'http://www.monkey.com'
+      
+    })
+    expect(user.toJSON()).toEqual({ username: 'test', photoUrl: 'http://www.monkey.com', _id: expect.any(Types.ObjectId) });
   });
+
 });
