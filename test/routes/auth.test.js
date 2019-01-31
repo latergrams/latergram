@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../lib/app');
+const app = require('../../lib/app');
 const mongoose = require('mongoose');
 const connect = require('../../lib/utils/connect');
 
@@ -18,10 +18,20 @@ describe('app', () => {
     return request(app)
       .post('/auth/signup')
       .send({
-        username: 'smith'
-        password: 'password'
-        photoUrl: 'www.amazon.com/mygratestphoto'
+        username: 'smith',
+        password: 'password',
+        photoUrl: 'www.amazon.com/mygreatestphoto'
       })
+      .then(res => {
+        expect(res.body).toEqual({
+          user: {
+            username: 'smith',
+            photoUrl: 'www.amazon.com/mygreatestphoto',
+            _id: expect.any(String)
+          },
+          token: expect.any(String)
+        });
+      });
   });
 
 });
