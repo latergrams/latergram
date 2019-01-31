@@ -69,4 +69,29 @@ describe('app', () => {
           .then(res => expect(res.body).toHaveLength(1));
       });
   });
+  it('gets posts by id', () => {
+    return User.create({ username: 'username', password: 'password', photoUrl: 'whatever.com' })
+      .then(user => {
+        return Post
+          .create({
+            user: user._id,
+            photoUrl: 'www.whatever.com',
+            caption: 'Nosebleeds are Amazing', 
+            tags: ['boo', 'boo']
+          })
+          .then(post => {
+            return request(app)
+              .get(`/posts/${post._id.toString()}`)
+              .then(res => {
+                expect(res.body).toEqual({
+                  user: expect.any(String),
+                  photoUrl: 'www.whatever.com',
+                  caption: 'Nosebleeds are Amazing', 
+                  tags: ['boo', 'boo'],
+                  _id: expect.any(String)
+                });
+              });
+          });
+      });
+  });
 });
