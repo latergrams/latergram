@@ -3,6 +3,7 @@ const app = require('../../lib/app');
 const mongoose = require('mongoose');
 const connect = require('../../lib/utils/connect');
 const User = require('../../lib/models/User');
+const Post = require('../../lib/models/Post');
 
 describe('app', () => {
   beforeAll(() => {
@@ -49,6 +50,23 @@ describe('app', () => {
             });
           });
 
+      });
+  });
+  it('will get all posts', () => {
+    return User.create({ username: 'username', password: 'password', photoUrl: 'whatever.com' })
+      .then(user => {
+        return Post
+          .create({
+            user: user._id,
+            photoUrl: 'www.whatever.com',
+            caption: 'Nosebleeds are Amazing', 
+            tags: ['boo', 'boo']
+          });
+      })
+      .then(() => {
+        return request(app)
+          .get('/posts')
+          .then(res => expect(res.body).toHaveLength(1));
       });
   });
 });
