@@ -61,4 +61,34 @@ describe('app', () => {
           });
       });
   });
+
+  it('has a /verify route', () => {
+    return User
+      .create({
+        username: 'smith',
+        password: 'password',
+        photoUrl: 'www.amazon.com/mygreatestphoto'
+      })
+      .then(() => {
+        return request(app)
+          .post('/auth/signin')
+          .send({
+            username: 'smith',
+            password: 'password'
+          })
+          .then(res => res.body.token);
+      })
+      .then(token => {
+        return request(app)
+          .get('/auth/verify')
+          .set('Authorization', `Bearer ${token}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          username: 'smith',
+          photoUrl: 'www.amazon.com/mygreatestphoto',
+          _id: expect.any(String)
+        });
+      });
+  });
 });
