@@ -18,7 +18,7 @@ describe('app', () => {
   });
 
   it('has a /posts route', () => {
-    return User.create({ username: 'username', password:  })
+    return User.create({ username: 'username', password: 'password', photoUrl: 'whatever.com' })
       .then(() => {
         return request(app)
           .post('/auth/signin')
@@ -35,21 +35,20 @@ describe('app', () => {
           .post('/posts')
           .send({ 
             user: res.body._id,
-            photoUrl: 'www.whatever.yeah',
+            photoUrl: 'www.whatever.com',
             caption: 'Nosebleeds are Amazing', 
             tags: ['boo', 'boo']
           })
-          .then(post => {
-            expect(post).toEqual({
-              user: expect.any(mongoose.Types.ObjectId),
-              photoUrl: 'www.whatever.yeah',
+          .then(res => {
+            expect(res.body).toEqual({
+              user: expect.any(String),
+              photoUrl: 'www.whatever.com',
               caption: 'Nosebleeds are Amazing', 
-              tags: ['boo', 'boo']
-            })
-          })
+              tags: ['boo', 'boo'], 
+              _id: expect.any(String)
+            });
+          });
 
       });
   });
 });
-  
-
