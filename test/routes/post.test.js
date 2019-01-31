@@ -94,4 +94,37 @@ describe('app', () => {
           });
       });
   });
+  it('patch updates the caption', () => {
+    let post = null;
+    return User.create({ username: 'username', password: 'password', photoUrl: 'whatever.com' })
+      .then(user => {
+        return Post
+          .create({
+            user: user._id,
+            photoUrl: 'www.whatever.com',
+            caption: 'Nosebleeds are Amazing', 
+            tags: ['boo', 'boo']
+          });
+      })
+      .then(createdPost => {
+        post = createdPost;
+        return request(app)
+          .post('/auth/signin')
+          .send({ username: 'username', password: 'password' })
+          .then(res => res.body.token);
+      })
+      .then(token => {
+        return request(app)
+          .get('/auth/verify')
+          .set('Authorization', `Bearer ${token}`);
+      })
+      .then(() => {
+        return request(app)
+          .patch(`/posts/${post._id.toString()}`)
+          .send({ caption: 'new caption' })
+          .then(res => expect(res.body.caption).toEqual('new caption'));
+      });
+      
+
+  });
 });
