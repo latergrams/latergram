@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../../lib/app');
 const mongoose = require('mongoose');
 const connect = require('../../lib/utils/connect');
+const User = require('../../lib/models/User');
 
 describe('app', () => {
   beforeAll(() => {
@@ -34,4 +35,30 @@ describe('app', () => {
       });
   });
 
+  it('can signin a user', () => {
+    return User
+      .create({ 
+        username: 'smith',
+        password: 'password',
+        photoUrl: 'www.amazon.com/mygreatestphoto'
+      })
+      .then(() => {
+        return request(app)
+          .post('/auth/signin')
+          .send({
+            username: 'smith',
+            password: 'password'
+          })
+          .then(res => {
+            expect(res.body).toEqual({
+              user: {
+                username: 'smith',
+                photoUrl: 'www.amazon.com/mygreatestphoto',
+                _id: expect.any(String)
+              },
+              token: expect.any(String)
+            });
+          });
+      });
+  });
 });
