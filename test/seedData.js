@@ -35,7 +35,7 @@ module.exports = ((totalUsers = DEFAULT_TOTAL_USERS, totalPosts = DEFAULT_TOTAL_
           return CommentModel.create({
             commentBy: chance.pickone(users)._id,
             post: chance.pickone(posts)._id,
-            comment: 'yo is blahhh'
+            comment: chance.sentence()
           });
         })
       );
