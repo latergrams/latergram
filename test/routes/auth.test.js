@@ -3,6 +3,7 @@ const app = require('../../lib/app');
 const mongoose = require('mongoose');
 const connect = require('../../lib/utils/connect');
 const User = require('../../lib/models/User');
+const seedData = require('../seedData');
 
 describe('app', () => {
   beforeAll(() => {
@@ -11,6 +12,11 @@ describe('app', () => {
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
   });
+
+  beforeEach(() => {
+    return seedData();
+  });
+
   afterAll(done => {
     mongoose.connection.close(done);
   });

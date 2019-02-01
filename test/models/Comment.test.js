@@ -3,10 +3,15 @@ require('../../lib/utils/connect')();
 const mongoose = require('mongoose');
 const Post = require('../../lib/models/Post');
 const User = require('../../lib/models/User');
-const CommentModel = require('../../lib/models/Comment')
+const CommentModel = require('../../lib/models/Comment');
+const seedData = require('../seedData');
 
 describe('models', () => {
   beforeEach(done => mongoose.connection.dropDatabase(done));
+
+  beforeEach(() => {
+    return seedData();
+  });
 
   afterAll(() => mongoose.disconnect());
 

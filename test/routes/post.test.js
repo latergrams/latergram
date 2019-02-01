@@ -1,3 +1,4 @@
+require('dotenv').config();
 const request = require('supertest');
 const app = require('../../lib/app');
 const mongoose = require('mongoose');
@@ -13,6 +14,10 @@ describe('app', () => {
 
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
+  });
+
+  beforeEach(() => {
+    return seedData();
   });
 
   afterAll(done => {
@@ -54,47 +59,10 @@ describe('app', () => {
       });
   });
   it('will get all posts', () => {
-    return User.create({ username: 'username', password: 'password', photoUrl: 'whatever.com' })
-      .then(user => {
-        return Post
-          .create({
-            user: user._id,
-            photoUrl: 'www.whatever.com',
-            caption: 'Nosebleeds are Amazing', 
-            tags: ['boo', 'boo']
-          });
-      })
-      .then(() => {
-        return request(app)
-          .get('/posts')
-          .then(res => expect(res.body).toHaveLength(1));
-      });
+    return request(app)
+      .get('/posts')
+      .then(res => expect(res.body).toHaveLength(100));
   });
-  // it('gets posts by id', () => {
-  //   return User.create({ username: 'username', password: 'password', photoUrl: 'whatever.com' })
-  //     .then(user => {
-  //       return Post
-  //         .create({
-  //           user: user._id,
-  //           photoUrl: 'www.whatever.com',
-  //           caption: 'Nosebleeds are Amazing', 
-  //           tags: ['boo', 'boo']
-  //         })
-  //         .then(post => {
-  //           return request(app)
-  //             .get(`/posts/${post._id.toString()}`)
-  //             .then(res => {
-  //               expect(res.body).toEqual({
-  //                 user: expect.any(String),
-  //                 photoUrl: 'www.whatever.com',
-  //                 caption: 'Nosebleeds are Amazing', 
-  //                 tags: ['boo', 'boo'],
-  //                 _id: expect.any(String)
-  //               });
-  //             });
-  //         });
-  //     });
-  // });
   it('gets posts by id', () => {
     return seedData()
       .then(() => {
