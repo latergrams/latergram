@@ -63,7 +63,7 @@ describe('app', () => {
       .get('/posts')
       .then(res => expect(res.body).toHaveLength(100));
   });
-  it('gets posts by id', () => {
+  it.only('gets posts by id', () => {
     return seedData()
       .then(() => {
         return Post.find()
